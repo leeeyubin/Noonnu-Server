@@ -25,11 +25,14 @@ public class Font {
     @Column(name = "producer", nullable = false)
     private String producer;
 
-    @Column(name = "thicknessNum", nullable = false)
+    @Column(name = "thickness_num", nullable = false)
     private int thicknessNum;
 
     @Column(name = "phrase", nullable = false)
     private String phrase;
+
+   @Column(name = "view_count")
+    private long viewCount;
 
     @Embedded
     private FontMetadata fontMetadata;
