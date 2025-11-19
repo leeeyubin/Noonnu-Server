@@ -65,7 +65,7 @@ public class FontRepositoryImpl implements FontRepositoryCustom {
 
     private OrderSpecifier<?> orderSpecifier(EFontSort sortType, QFont font) {
         return switch (sortType) {
-            case POPULAR, VIEW_COUNT -> font.viewCount.desc(); // todo: 인기순과 조회순 판별이 어려움
+            case POPULAR, VIEW_COUNT -> font.viewCount.desc();
             case LATEST -> font.createdAt.desc();
             case NAME -> font.name.asc();
         };
