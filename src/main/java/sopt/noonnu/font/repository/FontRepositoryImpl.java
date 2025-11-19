@@ -1,0 +1,73 @@
+package sopt.noonnu.font.repository;
+
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
+import sopt.noonnu.font.domain.*;
+
+@RequiredArgsConstructor
+public class FontRepositoryImpl implements FontRepositoryCustom {
+
+    private final JPAQueryFactory queryFactory;
+
+    @Override
+    public List<Font> findFontsByCondition(
+            int thicknessNum,
+            List<EFontPurpose> purposes,
+            List<EFontShape> shapes,
+            List<EFontMood> moods,
+            List<EFontLicense> licenses,
+            EFontSort sortType
+    ) {
+        QFont font = QFont.font;
+
+        return queryFactory
+                .selectFrom(font)
+                .where(
+                        thicknessEq(thicknessNum, font),
+                        purposesIn(purposes, font),
+                        shapesIn(shapes, font),
+                        moodsIn(moods, font),
+                        licensesIn(licenses, font)
+                )
+                .orderBy(orderSpecifier(sortType, font))
+                .fetch();
+    }
+
+    private BooleanExpression thicknessEq(int thicknessNum, QFont font) {
+        return font.thicknessNum.eq(thicknessNum);
+    }
+
+    private BooleanExpression purposesIn(List<EFontPurpose> purposes, QFont font) {
+        if (purposes == null || purposes.isEmpty()) return null;
+        return font.fontPurposes.any().in(purposes);
+    }
+
+    private BooleanExpression shapesIn(List<EFontShape> shapes, QFont font) {
+        if (shapes == null || shapes.isEmpty()) return null;
+        return font.fontShapes.any().in(shapes);
+    }
+
+    private BooleanExpression moodsIn(List<EFontMood> moods, QFont font) {
+        if (moods == null || moods.isEmpty()) return null;
+        return font.fontMoods.any().in(moods);
+    }
+
+    private BooleanExpression licensesIn(List<EFontLicense> licenses, QFont font) {
+        if (licenses == null || licenses.isEmpty()) return null;
+        return font.fontLicenses.any().in(licenses);
+    }
+
+    private OrderSpecifier<?> orderSpecifier(EFontSort sortType, QFont font) {
+        return switch (sortType) {
+            case POPULAR, VIEW_COUNT -> font.viewCount.desc(); // todo: 인기순과 조회순 판별이 어려움
+            case LATEST -> font.createdAt.desc();
+            case NAME -> font.name.asc();
+        };
+    }
+}
