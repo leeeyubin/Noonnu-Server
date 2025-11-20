@@ -11,8 +11,11 @@ import sopt.noonnu.userfont.domain.UserFonts;
 import sopt.noonnu.userfont.dto.command.UpdateFontFlagCommandDto;
 import sopt.noonnu.userfont.repository.UserFontRepository;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +34,36 @@ public class UserFontService {
     public void updateCompareFont(UpdateFontFlagCommandDto command) {
         updateFontFlag(command, UserFonts::updateIsCompared);
     }
+
+    @Transactional(readOnly = true)
+    public Map<Long, UserFonts> getUserFontMapByUserId(Long userId) {
+        List<UserFonts> userFonts = userFontRepository.findByUserId(userId);
+        return userFonts.stream()
+                .collect(Collectors.toMap(
+                        uf -> uf.getFont().getId(),
+                        uf -> uf
+                ));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Font> getComparedFontPreviews(Long userId) {
+        List<UserFonts> userFonts = userFontRepository.findByUserIdAndIsComparedTrue(userId);
+
+        return userFonts.stream()
+                .map(UserFonts::getFont)
+                .toList();
+    }
+
+    private UserFonts createUserFont(
+            User user,
+            Font font,
+            BiConsumer<UserFonts, Boolean> flagUpdater
+    ) {
+        UserFonts userFont = UserFonts.create(user, font, false, false);
+        flagUpdater.accept(userFont, true);
+        return userFont;
+    }
+
 
     private void updateFontFlag(
             UpdateFontFlagCommandDto command,
@@ -55,15 +88,5 @@ public class UserFontService {
                 userFontRepository.save(newUserFont);
             }
         }
-    }
-
-    private UserFonts createUserFont(
-            User user,
-            Font font,
-            BiConsumer<UserFonts, Boolean> flagUpdater
-    ) {
-        UserFonts userFont = UserFonts.create(user, font, false, false);
-        flagUpdater.accept(userFont, true);
-        return userFont;
     }
 }
