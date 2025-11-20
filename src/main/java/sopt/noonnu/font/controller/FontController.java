@@ -6,6 +6,7 @@ import sopt.noonnu.font.domain.*;
 import sopt.noonnu.font.dto.response.FontListResponse;
 import sopt.noonnu.font.dto.response.FontPreviewListResponse;
 import sopt.noonnu.font.service.FontService;
+import sopt.noonnu.font.service.GetFontsCommand;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class FontController implements FontApi{
             @RequestParam(value = "mood", required = false) List<EFontMood> moods,
             @RequestParam(value = "license", required = false) List<EFontLicense> licenses
     ) {
-        FontListResponse result = fontService.getFonts(
+        GetFontsCommand command = GetFontsCommand.of(
                 userId,
                 sortBy,
                 thicknessNum,
@@ -35,6 +36,8 @@ public class FontController implements FontApi{
                 moods,
                 licenses
         );
+
+        FontListResponse result = fontService.getFonts(command);
 
         return result;
     }
