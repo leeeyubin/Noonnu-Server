@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import sopt.noonnu.font.domain.*;
 import sopt.noonnu.font.dto.FontListResponse;
+import sopt.noonnu.global.dto.CustomErrorResponse;
 
 import java.util.List;
 
@@ -40,7 +41,10 @@ public interface FontApi {
             @io.swagger.v3.oas.annotations.responses.
                     ApiResponse(
                     responseCode = "400",
-                    description = "잘못된 요청 파라미터"
+                    description = "잘못된 요청 파라미터",
+                    content = @Content(
+                            schema = @Schema(implementation = CustomErrorResponse.class)
+                    )
             )
     })
     @GetMapping("/fonts")
