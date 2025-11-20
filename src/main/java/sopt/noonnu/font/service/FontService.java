@@ -45,28 +45,5 @@ public class FontService {
                 command.moods(),
                 command.licenses(),
                 command.sortBy());
-
-        /*Map<Long, UserFonts> userFontMap = userFontService.getUserFontMapByUserId(command.userId());
-
-        List<FontListResponse.FontResponse> fontResponses = fonts.stream()
-                .map(font -> {
-                    Long fontId = font.getId();
-                    UserFonts userFont = userFontMap.get(fontId);
-
-                    boolean isLiked = userFont != null && userFont.isLiked();
-                    boolean isCompared = userFont != null && userFont.isCompared();
-
-                    return FontListResponse.FontResponse.of(font, isLiked, isCompared);
-                })
-                .toList();
-
-        return FontListResponse.from(fontResponses);*/
-    }
-
-    @Transactional(readOnly = true)
-    public FontPreviewListResponse getComparedFontPreviews(Long userId) {
-        List<Font> fonts = userFontService.getComparedFontPreviews(userId);
-
-        return FontPreviewListResponse.from(fonts);
     }
 }

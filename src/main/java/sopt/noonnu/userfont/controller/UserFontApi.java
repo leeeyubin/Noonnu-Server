@@ -2,15 +2,15 @@ package sopt.noonnu.userfont.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
+import sopt.noonnu.font.dto.response.FontPreviewListResponse;
 import sopt.noonnu.global.dto.CustomErrorResponse;
 import sopt.noonnu.userfont.dto.request.UpdateCompareFlagRequestDto;
 import sopt.noonnu.userfont.dto.request.UpdateLikeFlagRequestDto;
@@ -74,5 +74,39 @@ public interface UserFontApi {
 
             @Parameter(description = "비교하기 상태 (true: 추가, false: 제거)", required = true)
             @RequestBody UpdateCompareFlagRequestDto request
+    );
+
+    @Operation(
+            summary = "폰트 비교하기 플로팅버튼 조회",
+            description = "비교하기에 담긴 폰트들의 id, name 목록을 조회합니다."
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.
+                    ApiResponse(
+                    responseCode = "200",
+                    description = "폰트 미리보기 조회 성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = FontPreviewListResponse.class))
+                    )
+            ),
+            @io.swagger.v3.oas.annotations.responses.
+                    ApiResponse(
+                    responseCode = "400",
+                    description = "잘못된 요청 헤더",
+                    content = @Content(
+                            schema = @Schema(implementation = CustomErrorResponse.class)
+                    )
+            )
+    })
+    @GetMapping("/user/compared-fonts/preview")
+    FontPreviewListResponse getComparedFontPreviews(
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "userId",
+                    description = "사용자 ID",
+                    required = true
+            )
+            @RequestHeader("userId") Long userId
     );
 }
