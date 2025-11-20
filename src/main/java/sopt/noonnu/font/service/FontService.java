@@ -57,8 +57,8 @@ public class FontService {
     }
 
     public FontPreviewListResponse getComparedFontPreviews(Long userId) {
-        List<FontPreviewListResponse.FontPreviewResponse> previews = userFontService.getComparedFontPreviews(userId);
+        List<Font> fonts = userFontService.getComparedFontPreviews(userId);
 
-        return FontPreviewListResponse.from(previews);
+        return FontPreviewListResponse.from(fonts);
     }
 }

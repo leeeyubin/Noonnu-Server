@@ -1,18 +1,22 @@
 package sopt.noonnu.font.dto.response;
 
+import sopt.noonnu.font.domain.Font;
+
 import java.util.List;
 
 public record FontPreviewListResponse(
-        List<FontPreviewResponse> fontPreviews
+        List<Item> items
 ) {
-    public static FontPreviewListResponse from(List<FontPreviewResponse> list) {
-        return new FontPreviewListResponse(list);
+    public static FontPreviewListResponse from(List<Font> fonts) {
+        List<Item> items = fonts.stream()
+                .map(f -> new Item(f.getId(), f.getName()))
+                .toList();
+        return new FontPreviewListResponse(items);
     }
 
-    public record FontPreviewResponse(
+    public record Item(
             Long id,
             String name
     ) {
-
     }
 }
