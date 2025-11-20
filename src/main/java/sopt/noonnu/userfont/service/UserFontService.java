@@ -33,6 +33,14 @@ public class UserFontService {
     }
 
     public List<FontPreviewListResponse.FontPreviewResponse> getComparedFontPreviews(Long userId) {
-        return userFontRepository.findComparedFontPreviews(userId);
+        List<UserFonts> userFonts = userFontRepository.findByUserIdAndIsComparedTrue(userId);
+
+        return userFonts.stream()
+                .map(uf -> new FontPreviewListResponse.FontPreviewResponse(
+                        uf.getFont().getId(),
+                        uf.getFont().getName()
+                ))
+                .toList();
     }
+
 }

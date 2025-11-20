@@ -1,10 +1,7 @@
 package sopt.noonnu.userfont.repository;
 
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import sopt.noonnu.font.domain.QFont;
-import sopt.noonnu.font.dto.response.FontPreviewListResponse;
 import sopt.noonnu.userfont.domain.QUserFonts;
 import sopt.noonnu.userfont.domain.UserFonts;
 
@@ -22,28 +19,6 @@ public class UserFontRepositoryImpl implements UserFontRepositoryCustom {
         return queryFactory
                 .selectFrom(userFont)
                 .where(userFont.user.id.eq(userId))
-                .fetch();
-    }
-
-    @Override
-    public List<FontPreviewListResponse.FontPreviewResponse> findComparedFontPreviews(Long userId) {
-        QUserFonts uf = QUserFonts.userFonts;
-        QFont font = QFont.font;
-
-        return queryFactory
-                .select(
-                        Projections.constructor(
-                                FontPreviewListResponse.FontPreviewResponse.class,
-                                font.id,
-                                font.name
-                        )
-                )
-                .from(uf)
-                .join(uf.font, font)
-                .where(
-                        uf.user.id.eq(userId),
-                        uf.isCompared.isTrue()
-                )
                 .fetch();
     }
 }
