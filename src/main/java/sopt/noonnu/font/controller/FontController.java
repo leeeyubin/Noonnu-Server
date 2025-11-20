@@ -17,9 +17,9 @@ public class FontController implements FontApi {
 
     @GetMapping
     public FontListResponse getFonts(
-            @RequestHeader("userId") Long userId,
+            @RequestHeader(value = "userId", defaultValue = "POPULAR") Long userId,
             @RequestParam("sortBy") EFontSort sortBy,
-            @RequestParam("thicknessNum") int thicknessNum,
+            @RequestParam(value = "thicknessNum", defaultValue = "1") int thicknessNum,
             @RequestParam(value = "purpose", required = false) List<EFontPurpose> purposes,
             @RequestParam(value = "shape", required = false) List<EFontShape> shapes,
             @RequestParam(value = "mood", required = false) List<EFontMood> moods,
