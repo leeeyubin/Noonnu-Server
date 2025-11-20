@@ -4,7 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import sopt.noonnu.font.domain.QFont;
-import sopt.noonnu.font.dto.response.PreviewFontResponse;
+import sopt.noonnu.font.dto.response.FontPreviewListResponse;
 import sopt.noonnu.userfont.domain.QUserFonts;
 import sopt.noonnu.userfont.domain.UserFonts;
 
@@ -26,14 +26,14 @@ public class UserFontRepositoryImpl implements UserFontRepositoryCustom {
     }
 
     @Override
-    public List<PreviewFontResponse> findComparedFontPreviews(Long userId) {
+    public List<FontPreviewListResponse.FontPreviewResponse> findComparedFontPreviews(Long userId) {
         QUserFonts uf = QUserFonts.userFonts;
         QFont font = QFont.font;
 
         return queryFactory
                 .select(
                         Projections.constructor(
-                                PreviewFontResponse.class,
+                                FontPreviewListResponse.FontPreviewResponse.class,
                                 font.id,
                                 font.name
                         )

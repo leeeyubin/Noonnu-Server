@@ -1,13 +1,11 @@
 package sopt.noonnu.font.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sopt.noonnu.font.domain.*;
-import sopt.noonnu.font.dto.FontListResponse;
-import sopt.noonnu.font.dto.response.PreviewFontResponse;
+import sopt.noonnu.font.dto.response.FontListResponse;
+import sopt.noonnu.font.dto.response.FontPreviewListResponse;
 import sopt.noonnu.font.service.FontService;
-import sopt.noonnu.global.dto.ApiResponse;
 
 import java.util.List;
 
@@ -42,12 +40,12 @@ public class FontController implements FontApi{
     }
 
     @GetMapping("/user/compared-fonts/preview")
-    public ResponseEntity<ApiResponse<List<PreviewFontResponse>>> getComparedFontPreviews(
+    public FontPreviewListResponse getComparedFontPreviews(
             @RequestHeader("userId") Long userId
     ) {
-        List<PreviewFontResponse> result = fontService.getComparedFontPreviews(userId);
+        FontPreviewListResponse result = fontService.getComparedFontPreviews(userId);
 
-        return ResponseEntity.ok(ApiResponse.success(result));
+        return result;
     }
 
 }

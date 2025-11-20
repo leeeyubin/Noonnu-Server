@@ -8,12 +8,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sopt.noonnu.font.domain.*;
-import sopt.noonnu.font.dto.response.PreviewFontResponse;
-import sopt.noonnu.global.dto.ApiResponse;
-import sopt.noonnu.font.dto.FontListResponse;
+import sopt.noonnu.font.dto.response.FontPreviewListResponse;
+import sopt.noonnu.font.dto.response.FontListResponse;
 
 import java.util.List;
 
@@ -104,7 +102,7 @@ public interface FontApi {
                     description = "폰트 미리보기 조회 성공",
                     content = @Content(
                             mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = PreviewFontResponse.class))
+                            array = @ArraySchema(schema = @Schema(implementation = FontPreviewListResponse.class))
                     )
             ),
             @io.swagger.v3.oas.annotations.responses.
@@ -114,7 +112,7 @@ public interface FontApi {
             )
     })
     @GetMapping("/user/compared-fonts/preview")
-    ResponseEntity<ApiResponse<List<PreviewFontResponse>>> getComparedFontPreviews(
+    FontPreviewListResponse getComparedFontPreviews(
             @Parameter(
                     in = ParameterIn.HEADER,
                     name = "userId",
