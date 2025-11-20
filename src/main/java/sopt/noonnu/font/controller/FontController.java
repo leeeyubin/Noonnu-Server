@@ -3,7 +3,8 @@ package sopt.noonnu.font.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import sopt.noonnu.font.domain.*;
-import sopt.noonnu.font.dto.FontListResponse;
+import sopt.noonnu.font.dto.response.FontListResponse;
+import sopt.noonnu.font.dto.response.FontPreviewListResponse;
 import sopt.noonnu.font.service.FontService;
 import sopt.noonnu.font.service.GetFontsCommand;
 
@@ -11,12 +12,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/fonts")
-public class FontController implements FontApi {
+@RequestMapping("/api")
+public class FontController implements FontApi{
 
     private final FontService fontService;
 
-    @GetMapping
+    @GetMapping("/fonts")
     public FontListResponse getFonts(
             @RequestHeader(value = "userId") Long userId,
             @RequestParam(value = "sortBy", defaultValue = "POPULAR") EFontSort sortBy,
@@ -38,4 +39,14 @@ public class FontController implements FontApi {
 
         return fontService.getFonts(command);
     }
+
+    @GetMapping("/user/compared-fonts/preview")
+    public FontPreviewListResponse getComparedFontPreviews(
+            @RequestHeader("userId") Long userId
+    ) {
+        FontPreviewListResponse result = fontService.getComparedFontPreviews(userId);
+
+        return result;
+    }
+
 }
