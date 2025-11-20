@@ -2,6 +2,7 @@ package sopt.noonnu.userfont.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import sopt.noonnu.facade.FontFacadeService;
 import sopt.noonnu.userfont.dto.command.UpdateFontFlagCommandDto;
 import sopt.noonnu.userfont.dto.request.UpdateCompareFlagRequestDto;
 import sopt.noonnu.userfont.dto.request.UpdateLikeFlagRequestDto;
@@ -12,14 +13,14 @@ import sopt.noonnu.userfont.service.UserFontService;
 @RequiredArgsConstructor
 public class UserFontController implements UserFontApi {
 
-    private final UserFontService userFontService;
+    private final FontFacadeService  fontFacadeService;
 
     @PostMapping("/user/fonts/{fontId}/like")
     public void updateLikeFont(
             @RequestHeader Long userId,
             @PathVariable Long fontId,
             @RequestBody UpdateLikeFlagRequestDto request){
-        userFontService.updateLikeFont(UpdateFontFlagCommandDto.of(userId, request, fontId));
+        fontFacadeService.updateLikeFont(UpdateFontFlagCommandDto.of(userId, request, fontId));
     }
 
     @PostMapping("/user/fonts/{fontId}/compare")
@@ -27,6 +28,6 @@ public class UserFontController implements UserFontApi {
             @RequestHeader Long userId,
             @PathVariable Long fontId,
             @RequestBody UpdateCompareFlagRequestDto request){
-        userFontService.updateCompareFont(UpdateFontFlagCommandDto.of(userId, request, fontId));
+        fontFacadeService.updateCompareFont(UpdateFontFlagCommandDto.of(userId, request, fontId));
     }
 }

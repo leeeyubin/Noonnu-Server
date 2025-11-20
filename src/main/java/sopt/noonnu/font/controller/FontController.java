@@ -6,7 +6,7 @@ import sopt.noonnu.font.domain.*;
 import sopt.noonnu.font.dto.response.FontListResponse;
 import sopt.noonnu.font.dto.response.FontPreviewListResponse;
 import sopt.noonnu.font.service.FontService;
-import sopt.noonnu.font.service.GetFontsCommand;
+import sopt.noonnu.font.dto.command.GetFontsCommand;
 
 import java.util.List;
 
@@ -44,9 +44,8 @@ public class FontController implements FontApi{
     public FontPreviewListResponse getComparedFontPreviews(
             @RequestHeader("userId") Long userId
     ) {
-        FontPreviewListResponse result = fontService.getComparedFontPreviews(userId);
 
-        return result;
+        return fontService.getComparedFontPreviews(userId);
     }
 
 }

@@ -1,4 +1,4 @@
-package sopt.noonnu.font.service;
+package sopt.noonnu.font.dto.command;
 
 import sopt.noonnu.font.domain.*;
 
