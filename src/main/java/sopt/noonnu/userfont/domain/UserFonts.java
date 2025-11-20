@@ -44,4 +44,25 @@ public class UserFonts extends BaseCreatedEntity {
         this.isCompared = isCompared;
     }
 
+    public static UserFonts create(final User user,
+                                   final Font font,
+                                   final boolean isLiked,
+                                   final boolean isCompared){
+
+        return UserFonts.builder()
+                .user(user)
+                .font(font)
+                .isLiked(isLiked)
+                .isCompared(isCompared)
+                .build();
+    }
+
+    public void updateIsLiked(final boolean isLiked){
+        this.isLiked = isLiked;
+    }
+
+    public void updateIsCompared(final boolean isCompared){
+        this.isCompared = isCompared;
+    }
+
 }
