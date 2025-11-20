@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sopt.noonnu.font.domain.*;
-import sopt.noonnu.font.dto.FontResponse;
+import sopt.noonnu.font.dto.response.FontResponse;
+import sopt.noonnu.font.dto.response.PreviewFontResponse;
 import sopt.noonnu.font.service.FontService;
 import sopt.noonnu.global.dto.ApiResponse;
 
@@ -12,12 +13,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/fonts")
+@RequestMapping("/api")
 public class FontController {
 
     private final FontService fontService;
 
-    @GetMapping
+    @GetMapping("/fonts")
     public ResponseEntity<ApiResponse<List<FontResponse>>> getFonts(
             @RequestHeader("userId") Long userId,
             @RequestParam("sortBy") EFontSort sortBy,
@@ -39,4 +40,14 @@ public class FontController {
 
         return ResponseEntity.ok(ApiResponse.success(result));
     }
+
+    @GetMapping("/user/compared-fonts/preview")
+    public ResponseEntity<ApiResponse<List<PreviewFontResponse>>> getComparedFontPreviews(
+            @RequestHeader("userId") Long userId
+    ) {
+        List<PreviewFontResponse> result = fontService.getComparedFontPreviews(userId);
+
+        return ResponseEntity.ok(ApiResponse.success(result));
+    }
+
 }
