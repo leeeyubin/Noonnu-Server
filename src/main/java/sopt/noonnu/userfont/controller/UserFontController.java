@@ -10,7 +10,7 @@ import sopt.noonnu.userfont.service.UserFontService;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class UserFontController {
+public class UserFontController implements UserFontApi {
 
     private final UserFontService userFontService;
 
