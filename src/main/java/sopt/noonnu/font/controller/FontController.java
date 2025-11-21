@@ -2,11 +2,12 @@ package sopt.noonnu.font.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import sopt.noonnu.facade.FontFacadeService;
 import sopt.noonnu.font.domain.*;
 import sopt.noonnu.font.dto.response.FontListResponse;
 import sopt.noonnu.font.dto.response.FontPreviewListResponse;
 import sopt.noonnu.font.service.FontService;
-import sopt.noonnu.font.service.GetFontsCommand;
+import sopt.noonnu.font.dto.command.GetFontsCommand;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
 public class FontController implements FontApi{
 
     private final FontService fontService;
+    private final FontFacadeService fontFacadeService;
 
     @GetMapping("/fonts")
     public FontListResponse getFonts(
@@ -37,16 +39,6 @@ public class FontController implements FontApi{
                 licenses
         );
 
-        return fontService.getFonts(command);
+        return fontFacadeService.getFonts(command);
     }
-
-    @GetMapping("/user/compared-fonts/preview")
-    public FontPreviewListResponse getComparedFontPreviews(
-            @RequestHeader("userId") Long userId
-    ) {
-        FontPreviewListResponse result = fontService.getComparedFontPreviews(userId);
-
-        return result;
-    }
-
 }

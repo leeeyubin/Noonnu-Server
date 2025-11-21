@@ -22,17 +22,15 @@ import java.util.stream.Collectors;
 public class UserFontService {
 
     private final UserFontRepository userFontRepository;
-    private final FontService fontService;
-    private final UserService userService;
 
     @Transactional
-    public void updateLikeFont(UpdateFontFlagCommandDto command) {
-        updateFontFlag(command, UserFonts::updateIsLiked);
+    public void updateLikeFont(Font font, User user, boolean isLiked) {
+        updateFontFlag(font, user, isLiked, UserFonts::updateIsLiked);
     }
 
     @Transactional
-    public void updateCompareFont(UpdateFontFlagCommandDto command) {
-        updateFontFlag(command, UserFonts::updateIsCompared);
+    public void updateCompareFont(Font font, User user, boolean isLiked) {
+        updateFontFlag(font, user, isLiked, UserFonts::updateIsCompared);
     }
 
     @Transactional(readOnly = true)
@@ -64,26 +62,25 @@ public class UserFontService {
         return userFont;
     }
 
-
     private void updateFontFlag(
-            UpdateFontFlagCommandDto command,
+            Font font,
+            User user,
+            boolean isTrue,
             BiConsumer<UserFonts, Boolean> flagUpdater
     ) {
-        Font font = fontService.getFont(command.fontId());
-        User user = userService.getUser(command.userId());
 
         Optional<UserFonts> userFontOpt = userFontRepository
-                .findByUserIdAndFontId(command.userId(), command.fontId());
+                .findByUserIdAndFontId(user.getId(), font.getId());
 
         if (userFontOpt.isPresent()) {
             UserFonts userFont = userFontOpt.get();
-            flagUpdater.accept(userFont, command.isTrue());
+            flagUpdater.accept(userFont, isTrue);
 
             if (!userFont.isLiked() && !userFont.isCompared()) {
                 userFontRepository.delete(userFont);
             }
         } else {
-            if (command.isTrue()) {
+            if (isTrue) {
                 UserFonts newUserFont = createUserFont(user, font, flagUpdater);
                 userFontRepository.save(newUserFont);
             }

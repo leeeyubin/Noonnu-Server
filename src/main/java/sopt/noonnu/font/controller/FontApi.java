@@ -95,38 +95,4 @@ public interface FontApi {
             @RequestParam(value = "license", required = false) List<EFontLicense> licenses
     );
 
-    @Operation(
-            summary = "폰트 비교하기 플로팅버튼 조회",
-            description = "비교하기에 담긴 폰트들의 id, name 목록을 조회합니다."
-    )
-    @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.
-                    ApiResponse(
-                    responseCode = "200",
-                    description = "폰트 미리보기 조회 성공",
-                    content = @Content(
-                            mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = FontPreviewListResponse.class))
-                    )
-            ),
-            @io.swagger.v3.oas.annotations.responses.
-                    ApiResponse(
-                    responseCode = "400",
-                    description = "잘못된 요청 헤더",
-                    content = @Content(
-                            schema = @Schema(implementation = CustomErrorResponse.class)
-                    )
-            )
-    })
-    @GetMapping("/user/compared-fonts/preview")
-    FontPreviewListResponse getComparedFontPreviews(
-            @Parameter(
-                    in = ParameterIn.HEADER,
-                    name = "userId",
-                    description = "사용자 ID",
-                    required = true
-            )
-            @RequestHeader("userId") Long userId
-    );
-
 }
