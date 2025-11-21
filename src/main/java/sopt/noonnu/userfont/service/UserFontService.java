@@ -4,11 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sopt.noonnu.font.domain.Font;
-import sopt.noonnu.font.service.FontService;
 import sopt.noonnu.user.domain.User;
-import sopt.noonnu.user.service.UserService;
 import sopt.noonnu.userfont.domain.UserFonts;
-import sopt.noonnu.userfont.dto.command.UpdateFontFlagCommandDto;
 import sopt.noonnu.userfont.repository.UserFontRepository;
 
 import java.util.List;
