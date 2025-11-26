@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sopt.noonnu.font.domain.Font;
-import sopt.noonnu.font.dto.command.GetFontsCommand;
+import sopt.noonnu.font.dto.command.GetFontsQuery;
 import sopt.noonnu.font.exception.FontErrorCode;
 import sopt.noonnu.font.repository.FontRepository;
 import sopt.noonnu.global.exception.BaseException;
@@ -24,7 +24,7 @@ public class FontService {
     }
 
     @Transactional(readOnly = true)
-    public List<Font> getFonts(GetFontsCommand command) {
+    public List<Font> getFonts(GetFontsQuery command) {
 
         return fontRepository.findFontsByCondition(
                 command.purposes(),

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import sopt.noonnu.facade.FontFacadeService;
 import sopt.noonnu.font.domain.*;
 import sopt.noonnu.font.dto.response.FontListResponse;
-import sopt.noonnu.font.dto.command.GetFontsCommand;
+import sopt.noonnu.font.dto.command.GetFontsQuery;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class FontController implements FontApi {
             @RequestParam(value = "mood", required = false) List<EFontMood> moods,
             @RequestParam(value = "license", required = false) List<EFontLicense> licenses
     ) {
-        GetFontsCommand command = GetFontsCommand.of(
+        GetFontsQuery command = GetFontsQuery.of(
                 userId,
                 sortBy,
                 purposes,

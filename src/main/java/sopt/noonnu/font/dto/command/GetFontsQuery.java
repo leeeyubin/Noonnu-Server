@@ -4,7 +4,7 @@ import sopt.noonnu.font.domain.*;
 
 import java.util.List;
 
-public record GetFontsCommand(
+public record GetFontsQuery(
         Long userId,
         EFontSort sortBy,
         List<EFontPurpose> purposes,
@@ -12,7 +12,7 @@ public record GetFontsCommand(
         List<EFontMood> moods,
         List<EFontLicense> licenses
 ) {
-    public static GetFontsCommand of(
+    public static GetFontsQuery of(
             Long userId,
             EFontSort sortBy,
             List<EFontPurpose> purposes,
@@ -20,7 +20,7 @@ public record GetFontsCommand(
             List<EFontMood> moods,
             List<EFontLicense> licenses
     ) {
-        return new GetFontsCommand(
+        return new GetFontsQuery(
                 userId,
                 sortBy,
                 purposes,
