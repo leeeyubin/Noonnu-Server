@@ -7,7 +7,6 @@ import java.util.List;
 public record GetFontsCommand(
         Long userId,
         EFontSort sortBy,
-        Integer thicknessNum,
         List<EFontPurpose> purposes,
         List<EFontShape> shapes,
         List<EFontMood> moods,
@@ -16,7 +15,6 @@ public record GetFontsCommand(
     public static GetFontsCommand of(
             Long userId,
             EFontSort sortBy,
-            Integer thicknessNum,
             List<EFontPurpose> purposes,
             List<EFontShape> shapes,
             List<EFontMood> moods,
@@ -25,7 +23,6 @@ public record GetFontsCommand(
         return new GetFontsCommand(
                 userId,
                 sortBy,
-                thicknessNum,
                 purposes,
                 shapes,
                 moods,
